@@ -17,7 +17,7 @@ public class Product {
 @Id
     private int id;
     private String name;
-    private String desc;
+    private String description;
     private String brand;
     private BigDecimal price;
     private  String category;
