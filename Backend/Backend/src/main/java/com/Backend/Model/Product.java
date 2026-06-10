@@ -11,20 +11,20 @@ import java.util.Date;
 
 @Entity
 @Data
-@AllArgsConstructor
+//@AllArgsConstructor
 @NoArgsConstructor
 public class Product {
 @Id
 @GeneratedValue(strategy = GenerationType.IDENTITY)
 
-    private int id;
+    private Integer id;
     private String name;
     private String description;
     private String brand;
     private BigDecimal price;
     private  String category;
 
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     private Date releaseDate;
     private boolean available;
     private int quantity;
@@ -32,9 +32,8 @@ public class Product {
     private String imageName;
     private String imageType;
 
+
+
     @Lob
-    private String imageData;
-
-
-
+    private byte[] imageDate;
 }

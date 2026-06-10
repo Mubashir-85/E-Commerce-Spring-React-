@@ -26,13 +26,14 @@ function Home() {
           data.map(async (product) => {
             try {
               const response = await axios.get(
-                "http://localhost:8080/products/${product.id}/image",
+                `http://localhost:8080/products/${product.id}/image`,
                 { responseType: "blob" },
               );
+              const imageUrl = URL.createObjectURL(response.data);
               return { ...product, imageUrl };
             } catch (error) {
               console.error(
-                "Error fetching image for product ${product.id}:",
+                `Error fetching image for product ${product.id}:`,
                 error,
               );
               return { ...product, imageUrl: null };

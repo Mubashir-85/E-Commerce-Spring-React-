@@ -1,5 +1,5 @@
 import axios from "axios";
-import React, { createContext, useState } from "react";
+import React, { createContext, useEffect, useState } from "react";
 
 const AppContext = createContext({
   data: [],
@@ -21,12 +21,12 @@ export const AppProvider = ({ children }) => {
     const existingProduct = cart.findIndex((item) => item.id === product.id);
     if (existingProduct !== -1) {
       const updatedCart = cart.map((item, index) =>
-        idex === existingProduct
+        index === existingProduct
           ? { ...item, quantity: item.quantity + 1 }
           : item,
       );
       setCart(updatedCart);
-      localStorage.setItem("cart", JSON.stringify(updateCart));
+      localStorage.setItem("cart", JSON.stringify(updatedCart));
     } else {
       const updatedCart = [...cart, { ...product, quantity: 1 }];
       setCart(updatedCart);
@@ -40,9 +40,11 @@ export const AppProvider = ({ children }) => {
     localStorage.setItem("cart", JSON.stringify(updatedCart));
   };
 
-  const refershData = async () => {
+  const refreshData = async () => {
     try {
-      const response = await axios.get("/products");
+      const response = await axios.get("http://localhost:8080/api/products");
+      console.log(response.data);
+      
       setData(response.data);
     } catch (error) {
       setIsError(error.message);
@@ -54,7 +56,7 @@ export const AppProvider = ({ children }) => {
   };
 
   useEffect(() => {
-    refershData();
+    refreshData();
   }, []);
 
   const handleCategory =(category)=>{
@@ -74,7 +76,7 @@ export const AppProvider = ({ children }) => {
         clearCart,
         handleCategory,
         selectedCategory,
-        
+
       }}
     >
       {children}
