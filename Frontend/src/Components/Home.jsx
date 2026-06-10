@@ -5,11 +5,11 @@ import { CiHeart } from "react-icons/ci";
 
 import { Link } from "react-router-dom";
 
-function Home() {
+function Home({ selectedCategory }) {
   const [products, setProducts] = useState([]);
 
   const [isdataFetched, setIsDataFetched] = useState(false);
-  const { data, isError, addToCart, refreshData, selectedCategory } =
+  const { data, isError, addToCart, refreshData  } =
     useContext(AppContext);
 
   useEffect(() => {
@@ -20,13 +20,14 @@ function Home() {
   }, [refreshData, isdataFetched]);
 
   useEffect(() => {
+    console.log("Data from context:", data);
     if (data && data.length > 0) {
       const fetchImageAndUpdateProducts = async () => {
         const updatedProducts = await Promise.all(
           data.map(async (product) => {
             try {
               const response = await axios.get(
-                `http://localhost:8080/products/${product.id}/image`,
+                `http://localhost:8080/api/product/${product.id}/image`,
                 { responseType: "blob" },
               );
               const imageUrl = URL.createObjectURL(response.data);
@@ -41,6 +42,8 @@ function Home() {
           }),
         );
         setProducts(updatedProducts);
+        console.log("updated products", updatedProducts);
+        
       };
       fetchImageAndUpdateProducts();
     }
@@ -48,7 +51,7 @@ function Home() {
 
   const filteredProduct = selectedCategory
     ? products.filter((product) => product.category === selectedCategory)
-    : products;
+    : data;
   if (isError) {
     return (
       <div className="text-center text-red-500">
