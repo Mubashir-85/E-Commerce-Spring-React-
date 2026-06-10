@@ -1,25 +1,53 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import axios from "axios";
+import AppContext from "../Context/Context";
+import { CiHeart } from "react-icons/ci";
+
+import { Link } from "react-router-dom";
 
 function Home() {
   const [products, setProducts] = useState([]);
-  const [isError, setIsError] = useState(false);
 
-  
+  const [isdataFetched, setIsDataFetched] = useState(false);
+  const { data, isError, addToCart, refreshData, selectedCategory } =
+    useContext(AppContext);
 
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await axios.get("http://localhost:8080/api/products");
-        setProducts(response.data);
-        console.log(response.data);
-      } catch (error) {
-        console.error("Error fetching products:", error);
-        setIsError(true);
-      }
-    };
-    fetchData();
-  }, []);
+    if (!isdataFetched) {
+      refreshData();
+      setIsDataFetched(true);
+    }
+  }, [refreshData, isdataFetched]);
+
+  useEffect(() => {
+    if (data && data.length > 0) {
+      const fetchImageAndUpdateProducts = async () => {
+        const updatedProducts = await Promise.all(
+          data.map(async (product) => {
+            try {
+              const response = await axios.get(
+                "http://localhost:8080/products/${product.id}/image",
+                { responseType: "blob" },
+              );
+              return { ...product, imageUrl };
+            } catch (error) {
+              console.error(
+                "Error fetching image for product ${product.id}:",
+                error,
+              );
+              return { ...product, imageUrl: null };
+            }
+          }),
+        );
+        setProducts(updatedProducts);
+      };
+      fetchImageAndUpdateProducts();
+    }
+  }, [data]);
+
+  const filteredProduct = selectedCategory
+    ? products.filter((product) => product.category === selectedCategory)
+    : products;
   if (isError) {
     return (
       <div className="text-center text-red-500">
@@ -30,22 +58,50 @@ function Home() {
 
   return (
     <>
-      <div className="flex items-center justify-between min-h-screen bg-gray-100 py-2 px-6 sm:px-0 ">
-        {products.map((product) => {
-          return (
-            <div
-              className="bg-white rounded-lg shadow-md p-4 m-4 flex flex-col items-center justify-center h-64 w-64"
-              key={product.id}
-            >
-              <h2 className="text-xl font-bold mb-2">{product.name.toUpperCase()}</h2>
-              <p className="text-gray-600">{product.brand}</p>
-              <p className="text-gray-600">₹{product.price.toFixed(2)}</p>
-              <button className="mt-4 bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">
-                Add To Cart
-              </button>
-            </div>
-          );
-        })}
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 p-4">
+        {filteredProduct.length === 0 ? (
+          <h2 className="text center flex items-center justify-center">
+            No products Available
+          </h2>
+        ) : (
+          filteredProduct.map((product) => {
+            const { id, name, brand, description, price, imageUrl, available } =
+              product;
+            return (
+              <div key={id} className="mb-3 w-[18rem] h-[24rem] flex flex-col">
+                <Link to={`/product/${id}`} className="h-[70%]">
+                  <img
+                    src={imageUrl}
+                    alt={name}
+                    className="w-100% h-[180px] object-cover p-[5px] m-0"
+                  />
+                  <div className="absolute top-[25px] left-[220px] z-1">
+                    <div>
+                      <CiHeart />
+                    </div>
+                  </div>
+                  <div className="flex grow flex-col justify-between p-[10px]">
+                    <div>
+                      <h5>{name.toUpperCase()}</h5>
+                      <i className="font-serif">{"~" + brand}</i>
+                    </div>
+                    <div>
+                      <h5>{"$" + price}</h5>
+                      <button
+                        className="w-100%"
+                        onClick={(e) => {
+                          e.preventDefault();
+                          addToCart(product);
+                        }}
+                        disabled={!available}
+                      ></button>
+                    </div>
+                  </div>
+                </Link>
+              </div>
+            );
+          })
+        )}
       </div>
     </>
   );

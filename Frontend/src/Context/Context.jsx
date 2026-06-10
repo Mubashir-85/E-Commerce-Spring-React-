@@ -15,6 +15,7 @@ export const AppProvider = ({ children }) => {
   const [data, setData] = useState([]);
   const [isError, setIsError] = useState("");
   const [cart, setCart] = useState([]);
+  const [selectedCategory, setSelectedCategory] = useState("");
 
   const addToCart = (product) => {
     const existingProduct = cart.findIndex((item) => item.id === product.id);
@@ -56,6 +57,11 @@ export const AppProvider = ({ children }) => {
     refershData();
   }, []);
 
+  const handleCategory =(category)=>{
+    setSelectedCategory(category);
+    console.log(category);
+  }
+
   return (
     <AppContext.Provider
       value={{
@@ -66,6 +72,9 @@ export const AppProvider = ({ children }) => {
         removeFromCart,
         refreshData,
         clearCart,
+        handleCategory,
+        selectedCategory,
+        
       }}
     >
       {children}

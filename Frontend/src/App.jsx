@@ -3,17 +3,17 @@ import "./App.css";
 import Navbar from "./Components/Navbar";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import Home from "./Components/Home";
-import Product from "./Components/Product";
+import AddProduct from "./Components/AddProduct";
 
 function App() {
   return (
     <>
       <BrowserRouter>
-      <Navbar/>
-      <Routes>
-        <Route path="/" element={<Home/>}/>
-        <Route path="/product" element={<Product/>}/>
-      </Routes>
+        <Navbar />
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/add_product" element={<AddProduct />} />
+        </Routes>
       </BrowserRouter>
     </>
   );

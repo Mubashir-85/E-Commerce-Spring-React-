@@ -1,6 +1,6 @@
 import React from 'react'
 
-function Product() {
+function AddProduct() {
   return (
     <div>
       <h2 className="text-center" style={{ padding: "10rem" }}>
@@ -10,4 +10,4 @@ function Product() {
   )
 }
 
-export default Product
+export default AddProduct
