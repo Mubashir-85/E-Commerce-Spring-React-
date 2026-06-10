@@ -12,7 +12,7 @@ function Navbar() {
         <div>
           <ul className='flex text-xl gap-5'>
             <Link to="/">Home</Link>
-            <Link to="/product">Add Product</Link>
+            <Link to="/add_product">Add Product</Link>
           </ul>
         </div>
         
