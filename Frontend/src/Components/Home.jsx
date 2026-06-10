@@ -51,7 +51,7 @@ function Home({ selectedCategory }) {
 
   const filteredProduct = selectedCategory
     ? products.filter((product) => product.category === selectedCategory)
-    : data;
+    : products;
   if (isError) {
     return (
       <div className="text-center text-red-500">

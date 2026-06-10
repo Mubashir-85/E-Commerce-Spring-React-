@@ -1,5 +1,6 @@
 import axios from "axios";
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
+import AppContext from "../Context/Context";
 
 function AddProduct() {
   const [product, setProduct] = useState({
@@ -12,6 +13,7 @@ function AddProduct() {
     releaseDate: "",
     available: true,
   });
+  const {refreshData} = useContext(AppContext);
 
   const [image, setImage] = useState(null);
 
@@ -40,6 +42,7 @@ function AddProduct() {
       .then((response) => {
         console.log("Product added", response.data);
         alert("Product added successfully");
+        refreshData();
       })
       .catch((error) => {
         console.log("Status:", error.response?.status);
