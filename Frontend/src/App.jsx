@@ -5,6 +5,7 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import Home from "./Components/Home";
 import AddProduct from "./Components/AddProduct";
 import Product from "./Components/Products";
+import UpdateProduct from "./Components/UpdateProduct";
 
 function App() {
   const [cart, setCart] = useState([]);
@@ -21,8 +22,8 @@ function App() {
         cart.map((item) =>
           item.id === product.id
             ? { ...item, quantity: item.quantity + 1 }
-            : item
-        )
+            : item,
+        ),
       );
     } else {
       setCart([...cart, { ...product, quantity: 1 }]);
@@ -33,10 +34,15 @@ function App() {
       <BrowserRouter>
         <Navbar />
         <Routes>
-          <Route path="/" element={<Home />} selectedCategory={selectedCategory} />
+          <Route
+            path="/"
+            element={<Home />}
+            selectedCategory={selectedCategory}
+          />
           <Route path="/add_product" element={<AddProduct />} />
           <Route path="/product" element={<Product />} />
           <Route path="product/:id" element={<Product />} />
+          <Route path="product/update/:id" element={<UpdateProduct />} />
         </Routes>
       </BrowserRouter>
     </>

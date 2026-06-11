@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 
 function UpdateProduct() {
-  const { id } = useParams;
+  const { id } = useParams();
   const [product, setProduct] = useState([]);
   const [image, setImage] = useState();
   const [updateProduct, setUpdateProduct] = useState({
@@ -14,7 +14,7 @@ function UpdateProduct() {
     price: "",
     category: "",
     releaseDate: "",
-    available: "",
+    available: "false",
     quantity: "",
   });
   useEffect(() => {
@@ -45,8 +45,8 @@ function UpdateProduct() {
     console.log("Image updated", image);
   }, [image]);
 
-  const convertUrlToFile = () => {
-    const file = new File([blobData], fileName, { type: blob.type });
+  const convertUrlToFile = (blobData,fileName) => {
+    const file = new File([blobData], fileName, { type: blobData.type });
     return file;
   };
 
@@ -86,7 +86,7 @@ function UpdateProduct() {
     });
   };
 
-  const handleChange = (e) => {
+  const handleImageChange = (e) => {
     setImage(e.target.files[0]);
   };
   return;
@@ -103,6 +103,7 @@ function UpdateProduct() {
             type="text"
             placeholder="Enter product name"
             onChange={handleChange}
+            value={updateProduct.name}
             name="name"
             className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
           />
@@ -114,6 +115,7 @@ function UpdateProduct() {
           <input
             type="text"
             onChange={handleChange}
+            value={updateProduct.brand}
             name="brand"
             placeholder="Enter brand name"
             className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
@@ -125,6 +127,7 @@ function UpdateProduct() {
           <label className="block text-sm font-medium mb-2">Description</label>
           <textarea
             onChange={handleChange}
+            value={updateProduct.decription}
             name="description"
             rows="4"
             placeholder="Enter product description"
@@ -139,6 +142,7 @@ function UpdateProduct() {
             <input
               type="number"
               onChange={handleChange}
+              value={updateProduct.price}
               name="price"
               placeholder="Enter price"
               className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
@@ -152,6 +156,7 @@ function UpdateProduct() {
             <input
               type="number"
               onChange={handleChange}
+              value={updateProduct.quantity}
               name="quantity"
               placeholder="Enter stock quantity"
               className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
@@ -164,6 +169,7 @@ function UpdateProduct() {
           <label className="block text-sm font-medium mb-2">Category</label>
           <select
             onChange={handleChange}
+            value={updateProduct.value}
             name="category"
             className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
           >
@@ -182,6 +188,7 @@ function UpdateProduct() {
           <input
             type="date"
             onChange={handleChange}
+            value={updateProduct.releaseDate}
             name="releaseDate"
             className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
           />
@@ -192,13 +199,37 @@ function UpdateProduct() {
           <label className="block text-sm font-medium mb-2">
             Product Image
           </label>
-          <input
+          <img
             type="file"
-            accept="image/*"
-            onChange={handleChange}
-            name="image"
+            alt={product.imageName}
+            src={image ? URL.createObjectURL(image) : "Image unavailable"}
             className="w-full border border-gray-300 rounded-lg px-4 py-2 file:mr-4 file:px-4 file:py-2 file:border-0 file:bg-blue-500 file:text-white file:rounded-md hover:file:bg-blue-600"
           />
+          <input
+            type="file"
+            onChange={handleImageChange}
+            placeholder="Upload image"
+            name="imageUrl"
+            id="imageUrl"
+          />
+        </div>
+        <div className="col-12">
+          <div className="form-check">
+            <input
+              className="form-check-input"
+              type="checkbox"
+              name="productAvailable"
+              id="gridCheck"
+              checked={updateProduct.productAvailable}
+              onChange={(e) =>
+                setUpdateProduct({
+                  ...updateProduct,
+                  productAvailable: e.target.checked,
+                })
+              }
+            />
+            <label className="form-check-label">Product Available</label>
+          </div>
         </div>
 
         {/* Submit Button */}
