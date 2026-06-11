@@ -9,7 +9,7 @@ function UpdateProduct() {
   const [updateProduct, setUpdateProduct] = useState({
     id: null,
     name: "",
-    decription: "",
+    description: "",
     brand: "",
     price: "",
     category: "",
@@ -54,8 +54,8 @@ function UpdateProduct() {
     e.preventDefault();
     console.log("img", image);
     console.log("product updated", updateProduct);
-    const updatedProduct = new FromData();
-    updatedProduct.append("imgFile", img);
+    const updatedProduct = new FormData();
+    updatedProduct.append("imageFile", image);
     updatedProduct.append(
       "product",
       new Blob([JSON.stringify(updateProduct)], { type: "application/json" }),
@@ -63,7 +63,7 @@ function UpdateProduct() {
 
     console.log("formData", updatedProduct);
     axios
-      .put(`http:/localhost:8080/api/product/${id}`, updateProduct, {
+      .put(`http://localhost:8080/api/product/${id}`, updatedProduct, {
         headers: {
           "Content-Type": "multipart/form-data",
         },
@@ -89,7 +89,7 @@ function UpdateProduct() {
   const handleImageChange = (e) => {
     setImage(e.target.files[0]);
   };
-  return;
+  return(
 
   <div className="min-h-screen bg-gray-100 flex items-center justify-center p-6">
     <div className="w-full max-w-3xl bg-white shadow-lg rounded-xl p-8">
@@ -127,7 +127,7 @@ function UpdateProduct() {
           <label className="block text-sm font-medium mb-2">Description</label>
           <textarea
             onChange={handleChange}
-            value={updateProduct.decription}
+            value={updateProduct.description}
             name="description"
             rows="4"
             placeholder="Enter product description"
@@ -241,7 +241,8 @@ function UpdateProduct() {
         </button>
       </form>
     </div>
-  </div>;
+  </div>
+  );
 }
 
 export default UpdateProduct;
