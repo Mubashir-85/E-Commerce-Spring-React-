@@ -72,7 +72,7 @@ function Home({ selectedCategory }) {
             const { id, name, brand, description, price, imageUrl, available } =
               product;
             return (
-              <div key={id} className="mb-3 w-[18rem] h-[24rem] flex flex-col">
+              <div key={id} className={`mb-3 w-[18rem] h-[24rem] flex flex-col ${available ?  "bg-gray-400":"bg-white"}`}>
                 <Link to={`/product/${id}`} className="h-[70%]">
                   <img
                     src={imageUrl}
@@ -98,7 +98,7 @@ function Home({ selectedCategory }) {
                           addToCart(product);
                         }}
                         disabled={!available}
-                      ></button>
+                      >{available? "Add to Cart" : "Out of Stock"}</button>
                     </div>
                   </div>
                 </Link>
