@@ -9,8 +9,7 @@ function Home({ selectedCategory }) {
   const [products, setProducts] = useState([]);
 
   const [isdataFetched, setIsDataFetched] = useState(false);
-  const { data, isError, addToCart, refreshData  } =
-    useContext(AppContext);
+  const { data, isError, addToCart, refreshData } = useContext(AppContext);
 
   useEffect(() => {
     if (!isdataFetched) {
@@ -43,7 +42,6 @@ function Home({ selectedCategory }) {
         );
         setProducts(updatedProducts);
         console.log("updated products", updatedProducts);
-        
       };
       fetchImageAndUpdateProducts();
     }
@@ -75,11 +73,18 @@ function Home({ selectedCategory }) {
         ) : (
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
             {filteredProduct.map((product) => {
-              const { id, name, brand, description, price, imageUrl, available } =
-                product;
+              const {
+                id,
+                name,
+                brand,
+                description,
+                price,
+                imageUrl,
+                available,
+              } = product;
               return (
-                <div 
-                  key={id} 
+                <div
+                  key={id}
                   className={`group relative rounded-2xl overflow-hidden shadow-md hover:shadow-xl transition-all duration-300 border border-gray-100 ${available ? "bg-white hover:-translate-y-1" : "bg-gray-100 opacity-75"}`}
                 >
                   <Link to={`/product/${id}`} className="block">
@@ -89,7 +94,7 @@ function Home({ selectedCategory }) {
                         alt={name}
                         className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                       />
-                      <button 
+                      <button
                         className="absolute top-3 right-3 p-2 bg-white/90 backdrop-blur-sm rounded-full shadow-sm hover:bg-white hover:shadow-md transition-all duration-200 text-gray-600 hover:text-red-500"
                         onClick={(e) => {
                           e.preventDefault();
@@ -105,23 +110,25 @@ function Home({ selectedCategory }) {
                         </div>
                       )}
                     </div>
-                    
+
                     <div className="p-4">
                       <div className="mb-3">
                         <h5 className="text-base font-bold text-gray-900 line-clamp-1 tracking-wide">
                           {name.toUpperCase()}
                         </h5>
-                        <i className="text-sm text-gray-500 font-serif">{"~" + brand}</i>
+                        <i className="text-sm text-gray-500 font-serif">
+                          {"~" + brand}
+                        </i>
                       </div>
-                      
+
                       <div className="flex items-center justify-between">
                         <h5 className="text-xl font-bold text-gray-900">
                           {"$" + price}
                         </h5>
                         <button
                           className={`px-4 py-2 rounded-lg text-sm font-semibold transition-all duration-200 ${
-                            available 
-                              ? "bg-gray-900 text-white hover:bg-gray-800 active:scale-95 shadow-sm hover:shadow-md" 
+                            available
+                              ? "bg-gray-900 text-white hover:bg-gray-800 active:scale-95 shadow-sm hover:shadow-md"
                               : "bg-gray-300 text-gray-500 cursor-not-allowed"
                           }`}
                           onClick={(e) => {
