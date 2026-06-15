@@ -1,5 +1,6 @@
 import React from 'react'
 import {Link, Links} from 'react-router-dom'
+import { FaShoppingCart } from "react-icons/fa";
 
 function Navbar() {
   return (
@@ -19,7 +20,7 @@ function Navbar() {
         </div>
         <div className='flex text-xl gap-5 justify-center items-center'>
 
-            <Link to="/cart">Cart</Link>
+            <Link to="/cart"><FaShoppingCart /></Link>
         </div>
         
         </div>

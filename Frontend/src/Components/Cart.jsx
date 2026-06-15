@@ -129,91 +129,54 @@ const Cart = () => {
   };
 
   return (
-    <div className="cart-container">
-      <div className="shopping-cart">
-        <div className="title">Shopping Bag</div>
-        {cartItems.length === 0 ? (
-          <div className="empty" style={{ textAlign: "left", padding: "2rem" }}>
-            <h4>Your cart is empty</h4>
-          </div>
-        ) : (
-          <>
-            {cartItems.map((item) => (
-              <li key={item.id} className="cart-item">
-                <div
-                  className="item"
-                  style={{ display: "flex", alignContent: "center" }}
-                  key={item.id}
-                >
-                 
-                  <div>
-                    <img
-                      src={item.imageUrl}
-                      alt={item.name}
-                      className="cart-item-image"
-                    />
-                  </div>
-                  <div className="description">
-                    <span>{item.brand}</span>
-                    <span>{item.name}</span>
-                  </div>
+    <div className="max-w-7xl mx-auto px-4 py-8">
+  <div className="grid gap-6">
+    {cartItems.map((item) => (
+      <div
+        key={item.id}
+        className="bg-white rounded-2xl shadow-md hover:shadow-xl transition-all duration-300 border border-gray-100 p-5 flex flex-col md:flex-row items-center gap-6"
+      >
+        <img
+          src={item.imageUrl}
+          alt={item.name}
+          className="w-40 h-40 object-cover rounded-xl"
+        />
 
-                  <div className="quantity">
-                    <button
-                      className="plus-btn"
-                      type="button"
-                      name="button"
-                      onClick={() => handleIncreaseQuantity(item.id)}
-                    >
-                      <i className="bi bi-plus-square-fill"></i>
-                    </button>
-                    <input
-                      type="button"
-                      name="name"
-                      value={item.quantity}
-                      readOnly
-                    />
-                    <button
-                      className="minus-btn"
-                      type="button"
-                      name="button"
-                      onClick={() => handleDecreaseQuantity(item.id)}
-                    >
-                      <i className="bi bi-dash-square-fill"></i>
-                    </button>
-                  </div>
+        <div className="flex-1">
+          <h3 className="text-xl font-bold text-gray-900">
+            {item.name}
+          </h3>
 
-                  <div className="total-price " style={{ textAlign: "center" }}>
-                    ${item.price * item.quantity}
-                  </div>
-                  <button
-                    className="remove-btn"
-                    onClick={() => handleRemoveFromCart(item.id)}
-                  >
-                    <i className="bi bi-trash3-fill"></i>
-                  </button>
-                </div>
-              </li>
-            ))}
-            <div className="total">Total: ${totalPrice}</div>
-            <Button
-              className="btn btn-primary"
-              style={{ width: "100%" }}
-              onClick={() => setShowModal(true)}
-            >
-              Checkout
-            </Button>
-          </>
-        )}
+          <p className="text-gray-500 mt-1">
+            {item.brand}
+          </p>
+
+          <p className="text-lg font-semibold text-gray-900 mt-3">
+            ${item.price}
+          </p>
+
+          <p className="text-gray-600 mt-1">
+            Quantity: {item.quantity}
+          </p>
+        </div>
+
+        <div className="flex flex-col gap-3">
+          <button
+            className="px-4 py-2 rounded-lg bg-red-500 text-white hover:bg-red-600 transition"
+          >
+            Remove
+          </button>
+
+          <button
+            className="px-4 py-2 rounded-lg bg-gray-900 text-white hover:bg-gray-800 transition"
+          >
+            Buy Now
+          </button>
+        </div>
       </div>
-      <CheckoutPopup
-        show={showModal}
-        handleClose={() => setShowModal(false)}
-        cartItems={cartItems}
-        totalPrice={totalPrice}
-        handleCheckout={handleCheckout}
-      />
-    </div>
+    ))}
+  </div>
+</div>
 
   );
 };

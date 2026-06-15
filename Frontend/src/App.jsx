@@ -6,6 +6,7 @@ import Home from "./Components/Home";
 import AddProduct from "./Components/AddProduct";
 import Product from "./Components/Products";
 import UpdateProduct from "./Components/UpdateProduct";
+import Cart from "./Components/Cart";
 
 function App() {
   const [cart, setCart] = useState([]);
@@ -43,6 +44,7 @@ function App() {
           <Route path="/product" element={<Product />} />
           <Route path="product/:id" element={<Product />} />
           <Route path="product/update/:id" element={<UpdateProduct />} />
+          <Route path="/cart" element={<Cart />} />
         </Routes>
       </BrowserRouter>
     </>
